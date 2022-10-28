@@ -1,9 +1,6 @@
-package com.udacity.pricing.domain.price;
+package com.udacity.pricing.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 /**
@@ -14,16 +11,29 @@ public class Price {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long vehicleId;
+    private Long id;
 
+    @Column(name = "CURRENCY")
     private String currency;
+
+    @Column(name = "PRICE")
     private BigDecimal price;
+
+    @Column(name = "VEHICLE_ID")
+    private Long vehicleId;
 
 
     public Price() {
     }
 
     public Price(String currency, BigDecimal price, Long vehicleId) {
+        this.currency = currency;
+        this.price = price;
+        this.vehicleId = vehicleId;
+    }
+    public Price(Long id, String currency, BigDecimal price, Long vehicleId) {
+        super();
+        this.id = id;
         this.currency = currency;
         this.price = price;
         this.vehicleId = vehicleId;
@@ -51,5 +61,13 @@ public class Price {
 
     public void setVehicleId(Long vehicleId) {
         this.vehicleId = vehicleId;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

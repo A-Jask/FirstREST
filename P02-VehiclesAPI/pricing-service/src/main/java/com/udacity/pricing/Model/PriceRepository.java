@@ -1,4 +1,4 @@
-package com.udacity.pricing.domain.price;
+package com.udacity.pricing.Model;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.CrudRepository;

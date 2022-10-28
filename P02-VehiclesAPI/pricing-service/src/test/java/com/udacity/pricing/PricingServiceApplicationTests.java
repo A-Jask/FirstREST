@@ -1,16 +1,57 @@
 package com.udacity.pricing;
-
+import com.udacity.pricing.Model.Price;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@AutoConfigureMockMvc
+@AutoConfigureJsonTesters
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureWebMvc
 public class PricingServiceApplicationTests {
+
+	@LocalServerPort
+	private int port;
+
+	@Autowired
+	private MockMvc mockMvc;
+
+	@Autowired
+	private TestRestTemplate restTemplate;
 
 	@Test
 	public void contextLoads() {
 	}
 
+	@Test
+	public void getAllPrices() throws Exception {
+		mockMvc.perform(
+						get("http://localhost:8082/prices")
+								.contentType(MediaType.APPLICATION_JSON_UTF8)
+								.accept(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	public void getPrice() {
+		ResponseEntity<Price> response =
+				this.restTemplate.getForEntity("http://localhost:" + port + "/prices/1", Price.class);
+		assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
+	}
 }

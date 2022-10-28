@@ -1,6 +1,7 @@
 package com.udacity.pricing.service;
 
-import com.udacity.pricing.domain.price.Price;
+import com.udacity.pricing.Exceptions.PriceException;
+import com.udacity.pricing.Model.Price;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
